@@ -27,17 +27,17 @@ body {
     font-size: 30px;
   }
   
+  #start-screen{
+    display: block;
+}
   button {
     all: unset;
     padding: 0;
     margin: 0;
     cursor: pointer;
     appearance: none;
-    
     transition: transform .7s ease-in-out;
-    margin-left:10px;
-    
-    position: relative;
+    margin-left:10px;  
     
   }
   
@@ -46,11 +46,6 @@ body {
     
 }
 
-  
-#start-screen{
-    display: block;
-    
-}
 
 p{
     color: black;
@@ -59,20 +54,6 @@ p{
 }
 
 
-.main{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-
-}
-
-.main button img{
-    width: 300px;
-    height: 200px;
-    
-    object-fit: contain;
-   
-}
 #head-dog{
     width: 250px;
     height: 340px;
@@ -81,15 +62,24 @@ p{
 #game-start {
     display: none;
     align-content: center;
-    padding: 20px 0px;
+    
     overflow: hidden;
     position: relative;
     background-image: url(../images/street.jpg);
     background-size: cover;
-    animation: 5s linear 1s infinite reverse slidein;
+    animation: slide 5s linear 1s infinite ;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-
+  @keyframes slide {
+    0% {
+        background-position-x: 0;
+      }
+      100% {
+        background-position-x: -1000px;
+      }
+  }
   #game-end {
     display: none;
     align-content: center;
