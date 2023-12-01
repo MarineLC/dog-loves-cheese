@@ -10,6 +10,7 @@ class Game{
         this.height = '600';
         this.width = '1000';
 
+        this.dog = null;
 
     }
 
@@ -19,8 +20,13 @@ class Game{
         this.gameScreen.style.width = `${this.width}px`;
         this.startScreen.style.display = 'none';
         this.heaDog.style.display = 'none';
-        console.log(this.startScreen.style.display);
+
+        
         this.gameScreen.style.display = 'block';
+
+        this.dog = new Dog(this.gameScreen);
+
+
     }
 
 }
