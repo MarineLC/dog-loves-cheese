@@ -12,21 +12,31 @@ class Game{
 
         this.dog = null;
 
+        this.cat = null;
+
     }
 
 
     launch(){
         this.gameScreen.style.height = `${this.height}px`;
         this.gameScreen.style.width = `${this.width}px`;
+       
         this.startScreen.style.display = 'none';
         this.heaDog.style.display = 'none';
-
         
         this.gameScreen.style.display = 'block';
 
         this.dog = new Dog(this.gameScreen);
 
+        this.cat = new Obstacle(this.gameScreen);
 
+        this.gameLoop();
     }
 
+    gameLoop(){
+        this.dog.move();
+    
+       
+        window.requestAnimationFrame(() => this.gameLoop());
+    }
 }

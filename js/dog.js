@@ -1,12 +1,12 @@
 class Dog{
     constructor(gameScreen){
         this.gameScreen = gameScreen;
-       /* this.left = 230;
-         this.top = 540;*/
-         this.height = 80;
-         this.width = 100;
-        /* this.directionX = 0;
-         this.directionY = 0;*/
+         this.left = 20;
+         this.top = 480;
+         this.height = 120;
+         this.width = 140;
+         this.directionX = 0;
+         this.directionY = 0;
 
          this.element = document.createElement('img');
          this.element.src = '../images/body.png';
@@ -15,11 +15,47 @@ class Dog{
         this.element.style.height = `${this.height}px`
         this.element.style.width = `${this.width}px`
   
-  /*    this.element.style.left = `${this.left}px`
-      this.element.style.top = `${this.top}px`
-  */
+        this.element.style.left = `${this.left}px`
+        this.element.style.top = `${this.top}px`
+  
  
-       console.log(this.element);
-      this.gameScreen.appendChild(this.element)
+       this.gameScreen.appendChild(this.element)
     }
+    
+
+      move() {
+        if (this.left >= 20) {
+          this.left += this.directionX
+        } else {
+          this.left = 20
+        }
+        if (this.left <= 1000 - this.width) {
+          this.left += this.directionX
+        } else {
+          this.left = 1000 - this.width
+        }
+    
+        if (this.top >= 300) {
+          this.top += this.directionY
+        } else {
+          this.top = 300
+        }
+        if (this.top <= 480) {
+            this.top += this.directionY
+          } else {
+            this.top = 480
+          }
+        if (this.top <= this.gameScreen.offsetHeight - this.height) {
+          this.top += this.directionY
+        } else {
+          this.top = this.gameScreen.offsetHeight - this.height
+        }
+    
+        this.updatePosition()
+      }
+      updatePosition() {
+        this.element.style.left = `${this.left}px`
+        this.element.style.top = `${this.top}px`
+      }
+    
 }
