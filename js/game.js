@@ -10,10 +10,14 @@ class Game{
         this.height = '600';
         this.width = '1000';
 
+        //player
         this.dog = null;
 
+        //obstacles
         this.cats = [];
+        this.puddles = [];
 
+        //cheese
         this.cheeses = [];
 
         this.score = 0;
@@ -35,7 +39,7 @@ class Game{
         this.gameScreen.style.display = 'block';
 
         this.dog = new Dog(this.gameScreen);
-
+       // this.puddles = new Puddle(this.gameScreen);
         this.gameLoop();
     }
 
@@ -43,33 +47,38 @@ class Game{
         // player moves
         this.dog.move();
     
-    
-    //Obstacles cats move
-    const nextCats = []
-    this.cats.forEach(currentCat => {
-        currentCat.move();
-        console.log(currentCat.left);
-      if (currentCat.left < 1000) {
-        if (this.dog.didCollide(currentCat)) {
+    /*
+        const nextPuddle = []
+    this.puddles.forEach(currentObstacle => {
+        currentObstacle.move();
+        console.log(currentObstacle.left);
+      if (currentObstacle.left < 1000) {
+        if (this.dog.didCollide(currentObstacle)) {
           console.log('collision');
-          currentCat.element.remove();
+          currentObstacle.element.remove();
           this.lives -= 1;
           if (this.lives <= 0) {
             this.gameOver = true;
           }
         } else {
-            nextCats.push(currentCat);
+            nextPuddle.push(currentObstacle);
         }
     }
        else {
-        currentCat.element.remove();
-        this.score += 30;
+        currentObstacle.element.remove();
+        
        }
 
     });
-     this.cats = nextCats;
+     this.puddles = nextPuddle; */
 
-     //Obstacles cheese move
+    //Obstacles 
+    this.obstacle(this.cats);
+    this.obstacle(this.puddles);
+
+     
+
+     // cheese move
     const nextCheeses = []
     this.cheeses.forEach(currentCheese => {
         currentCheese.move();
@@ -98,10 +107,20 @@ class Game{
 
      console.log(this.animateId)
      if (this.animateId % 300 === 0) {
-        console.log(this.animateId)
         this.cats.push(new Cat(this.gameScreen))
+        if(this.score > 80){
+            this.puddles.push(new Puddle(this.gameScreen))
+        }
+        
+      }
+      if (this.animateId % 200 === 0) {
         this.cheeses.push(new Cheese(this.gameScreen))
       }
+    /*  if (this.animateId % 500 === 1 && this.score > 80) {
+        console.log(this.animateId)
+        this.puddles.push(new Puddle(this.gameScreen))
+      }*/
+
       //speed up the animations
       if (this.score > 80 && this.animateId % 200 === 0) {
         this.cats.push(new Cat(this.gameScreen))
@@ -111,7 +130,7 @@ class Game{
         this.cats.push(new Cat(this.gameScreen))
 
       }
-      console.log(this.cats)
+     
 
          if (this.gameOver) {
            this.gameScreen.style.display = 'none'
@@ -122,5 +141,32 @@ class Game{
              this.animateId = requestAnimationFrame(() => this.gameLoop())
 
             }
+}
+
+//factorisation obstacles
+obstacle(obstacles){
+    const nextObstacle = []
+    obstacles.forEach(currentObstacle => {
+        currentObstacle.move();
+        console.log(currentObstacle.left);
+      if (currentObstacle.left < 1000) {
+        if (this.dog.didCollide(currentObstacle)) {
+          console.log('collision');
+          currentObstacle.element.remove();
+          this.lives -= 1;
+          if (this.lives <= 0) {
+            this.gameOver = true;
+          }
+        } else {
+            nextObstacle.push(currentObstacle);
+        }
+    }
+       else {
+        currentObstacle.element.remove();
+        
+       }
+
+    });
+     obstacles = nextObstacle;
 }
 }

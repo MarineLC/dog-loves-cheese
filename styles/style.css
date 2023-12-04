@@ -14,7 +14,6 @@ body {
     color: black;
     letter-spacing: 2px;
     line-height: 30px;
-    
     font-weight: 200px;
     font-size: 60px;
     font-style: normal;
@@ -24,13 +23,13 @@ body {
   }
 
   h2{
-    font-size: 30px;
+    font-size: 40px;
   }
   
   #start-screen{
     display: block;
 }
-  button {
+#start-screen button {
     all: unset;
     padding: 0;
     margin: 0;
@@ -41,7 +40,7 @@ body {
     
   }
   
-  button:hover{
+  #start-screen button:hover{
     transform: rotate(360deg);
     
 }
@@ -49,8 +48,7 @@ body {
 
 p{
     color: black;
-    font-size: 20px;
-
+    font-size: 25px;
 }
 
 
@@ -83,9 +81,39 @@ p{
 
   #game-end {
     display: none;
-    align-content: center;
-    
+    align-content: center;    
     overflow: hidden;
     position: relative;
  
   }
+
+  #game-end img{
+    width: 250px;
+    height: 340px;
+    margin-left: 20px;
+    
+  }
+
+
+  #game-end button{
+    font-family: fantasy;
+    padding: 0 20px;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 2.5;
+    cursor: pointer;
+    border-radius: 10px;
+    text-shadow: 1px 1px 1px #000;
+    color: #fff;
+    background-color: rgb(220, 125, 0);
+    background-image: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 30%,
+    rgba(0, 0, 0, 0)
+  );
+  box-shadow:
+    inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+  }
+
