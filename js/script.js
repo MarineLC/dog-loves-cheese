@@ -1,6 +1,7 @@
 window.onload = function () {
 
     const startGamebtn = document.getElementById('head-dog');
+    const restartGameBtn = document.getElementById('restart-button');
 
     let game;
 
@@ -19,6 +20,12 @@ window.onload = function () {
 
     startGamebtn.addEventListener('click', function () {
         startGame();
+      })
+
+      restartGameBtn.addEventListener('click', function () {
+        // startGame()
+        //startGame();
+       location.reload()
       })
 
  // Check if the pressed key is in the possibleKeystrokes array
