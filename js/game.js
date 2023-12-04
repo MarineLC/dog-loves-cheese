@@ -47,36 +47,10 @@ class Game{
         // player moves
         this.dog.move();
     
-    /*
-        const nextPuddle = []
-    this.puddles.forEach(currentObstacle => {
-        currentObstacle.move();
-        console.log(currentObstacle.left);
-      if (currentObstacle.left < 1000) {
-        if (this.dog.didCollide(currentObstacle)) {
-          console.log('collision');
-          currentObstacle.element.remove();
-          this.lives -= 1;
-          if (this.lives <= 0) {
-            this.gameOver = true;
-          }
-        } else {
-            nextPuddle.push(currentObstacle);
-        }
-    }
-       else {
-        currentObstacle.element.remove();
-        
-       }
-
-    });
-     this.puddles = nextPuddle; */
 
     //Obstacles 
     this.obstacle(this.cats);
     this.obstacle(this.puddles);
-
-     
 
      // cheese move
     const nextCheeses = []
@@ -107,30 +81,37 @@ class Game{
 
      console.log(this.animateId)
      if (this.animateId % 300 === 0) {
-        this.cats.push(new Cat(this.gameScreen))
+        this.cats.push(new Cat(this.gameScreen));
+        this.cheeses.push(new Cheese(this.gameScreen));
+           
+        this.checkSuperposition(this.cheeses, this.cats);
         if(this.score > 80){
             this.puddles.push(new Puddle(this.gameScreen))
+            this.checkSuperposition(this.cats, this.puddles);
+            this.checkSuperposition(this.puddles, this.cheeses);
         }
         
       }
+      /*
       if (this.animateId % 200 === 0) {
         this.cheeses.push(new Cheese(this.gameScreen))
+        this.checkSuperposition();
       }
-    /*  if (this.animateId % 500 === 1 && this.score > 80) {
-        console.log(this.animateId)
-        this.puddles.push(new Puddle(this.gameScreen))
-      }*/
+      */
 
       //speed up the animations
+      /*
       if (this.score > 80 && this.animateId % 200 === 0) {
         this.cats.push(new Cat(this.gameScreen))
 
       }
+      
       if (this.score > 120 && this.animateId % 100 === 0) {
         this.cats.push(new Cat(this.gameScreen))
 
       }
-     
+     */
+      
 
          if (this.gameOver) {
            this.gameScreen.style.display = 'none'
@@ -139,8 +120,9 @@ class Game{
          } else {
 
              this.animateId = requestAnimationFrame(() => this.gameLoop())
-
+             
             }
+            
 }
 
 //factorisation obstacles
@@ -151,7 +133,6 @@ obstacle(obstacles){
         console.log(currentObstacle.left);
       if (currentObstacle.left < 1000) {
         if (this.dog.didCollide(currentObstacle)) {
-          console.log('collision');
           currentObstacle.element.remove();
           this.lives -= 1;
           if (this.lives <= 0) {
@@ -163,10 +144,37 @@ obstacle(obstacles){
     }
        else {
         currentObstacle.element.remove();
-        
        }
-
     });
      obstacles = nextObstacle;
 }
+
+
+//avoid superposition 
+    checkSuperposition(obstacles2Remove, obstacles2Keep){
+        console.log(`obstacles2Remove ${obstacles2Remove}`);
+        console.log(`obstacles2Keep ${obstacles2Keep}`);
+
+        obstacles2Remove.forEach(element2remove => {
+            obstacles2Keep.forEach(element2keep => {
+                console.log(`remove ${element2remove.top}`);
+                console.log(`keep ${element2keep.top}`);
+                const element2removeRect = element2remove.element.getBoundingClientRect() 
+                 const element2keepRect = element2keep.element.getBoundingClientRect()
+                 if (
+                    element2removeRect.left < element2keepRect.right &&
+                    element2removeRect.right > element2keepRect.left &&
+                    element2removeRect.top < element2keepRect.bottom &&
+                    element2removeRect.bottom > element2keepRect.top
+                  )
+                  element2keep.element.remove();
+              
+               
+            });            
+        });
+    } 
+
+
+
+
 }
