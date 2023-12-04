@@ -63,10 +63,10 @@ class Dog{
         const obstacleRect = obstacle.element.getBoundingClientRect()
     
         if (
-          playerRect.left < obstacleRect.right &&
-          playerRect.right > obstacleRect.left &&
-          playerRect.top < obstacleRect.bottom &&
-          playerRect.bottom > obstacleRect.top
+          playerRect.left < obstacleRect.right-25 &&
+          playerRect.right > obstacleRect.left+25 &&
+          playerRect.top < obstacleRect.bottom-25 &&
+          playerRect.bottom > obstacleRect.top+25
         ) {
           return true
         } else {

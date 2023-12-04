@@ -92,26 +92,7 @@ class Game{
         }
         
       }
-      /*
-      if (this.animateId % 200 === 0) {
-        this.cheeses.push(new Cheese(this.gameScreen))
-        this.checkSuperposition();
-      }
-      */
 
-      //speed up the animations
-      /*
-      if (this.score > 80 && this.animateId % 200 === 0) {
-        this.cats.push(new Cat(this.gameScreen))
-
-      }
-      
-      if (this.score > 120 && this.animateId % 100 === 0) {
-        this.cats.push(new Cat(this.gameScreen))
-
-      }
-     */
-      
 
          if (this.gameOver) {
            this.gameScreen.style.display = 'none'
@@ -152,15 +133,13 @@ obstacle(obstacles){
 
 //avoid superposition 
     checkSuperposition(obstacles2Remove, obstacles2Keep){
-        console.log(`obstacles2Remove ${obstacles2Remove}`);
-        console.log(`obstacles2Keep ${obstacles2Keep}`);
 
         obstacles2Remove.forEach(element2remove => {
             obstacles2Keep.forEach(element2keep => {
-                console.log(`remove ${element2remove.top}`);
-                console.log(`keep ${element2keep.top}`);
-                const element2removeRect = element2remove.element.getBoundingClientRect() 
-                 const element2keepRect = element2keep.element.getBoundingClientRect()
+                
+                const element2removeRect = element2remove.element.getBoundingClientRect();
+                 const element2keepRect = element2keep.element.getBoundingClientRect();
+                 
                  if (
                     element2removeRect.left < element2keepRect.right &&
                     element2removeRect.right > element2keepRect.left &&
