@@ -52,7 +52,7 @@ window.onload = function () {
       event.code === 'ArrowDown' ||
       event.code === 'KeyS'
     ) {
-      console.log('Stop moving on Y')
+
       game.dog.directionY = 0
     }
     if (
@@ -61,7 +61,7 @@ window.onload = function () {
       event.code === 'ArrowRight' ||
       event.code === 'KeyD'
     ) {
-      console.log('Stop moving on X')
+
       game.dog.directionX = 0
     }
   }

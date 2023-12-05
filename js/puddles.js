@@ -35,7 +35,21 @@ class Puddle{
    
       }
 
-
+      didSuperpose(obstacle) {
+        const puddleRect = this.element.getBoundingClientRect() 
+        const obstacleRect = obstacle.element.getBoundingClientRect()
+    
+        if (
+          puddleRect.left < obstacleRect.right &&
+          puddleRect.right > obstacleRect.left &&
+          puddleRect.top < obstacleRect.bottom &&
+          puddleRect.bottom > obstacleRect.top
+        ) {
+          return true
+        } else {
+          return false
+        }
+      }
 
 
 

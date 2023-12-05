@@ -1,8 +1,8 @@
 class Dog{
     constructor(gameScreen){
         this.gameScreen = gameScreen;
-         this.left = 20;
-         this.top = 480;
+         this.left = 15;
+         this.top = 500;
          this.height = 120;
          this.width = 140;
          this.directionX = 0;
@@ -24,10 +24,10 @@ class Dog{
     
 
       move() {
-        if (this.left >= 20) {
+        if (this.left >= 15) {
           this.left += this.directionX
         } else {
-          this.left = 20
+          this.left = 15
         }
         if (this.left <= 1000 - this.width) {
           this.left += this.directionX
@@ -35,15 +35,15 @@ class Dog{
           this.left = 1000 - this.width
         }
     
-        if (this.top >= 300) {
+        if (this.top >= 280) {
           this.top += this.directionY
         } else {
-          this.top = 300
+          this.top = 280
         }
-        if (this.top <= 480) {
+        if (this.top <= 700) {
             this.top += this.directionY
           } else {
-            this.top = 480
+            this.top = 700
           }
         if (this.top <= this.gameScreen.offsetHeight - this.height) {
           this.top += this.directionY

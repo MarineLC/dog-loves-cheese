@@ -33,4 +33,19 @@ class Cheese{
         return this.top;
       }
 
+      didSuperpose(obstacle) {
+        const cheeseRect = this.element.getBoundingClientRect() 
+        const obstacleRect = obstacle.element.getBoundingClientRect()
+    
+        if (
+            cheeseRect.left < obstacleRect.right &&
+            cheeseRect.right > obstacleRect.left &&
+            cheeseRect.top < obstacleRect.bottom &&
+            cheeseRect.bottom > obstacleRect.top
+        ) {
+          return true
+        } else {
+          return false
+        }
+      }
 }
