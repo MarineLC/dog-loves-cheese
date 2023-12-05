@@ -9,7 +9,7 @@ class Dog{
          this.directionY = 0;
 
          this.element = document.createElement('img');
-         this.element.src = '../images/body.png';
+         this.element.src = 'images/body.png';
         this.element.style.position = 'absolute';
 
         this.element.style.height = `${this.height}px`
