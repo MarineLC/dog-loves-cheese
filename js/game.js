@@ -39,7 +39,7 @@ class Game{
         this.gameScreen.style.display = 'block';
 
         this.dog = new Dog(this.gameScreen);
-       // this.puddles = new Puddle(this.gameScreen);
+   
         this.gameLoop();
     }
 
@@ -92,8 +92,6 @@ class Game{
         }
         
       }
-
-
          if (this.gameOver) {
            this.gameScreen.style.display = 'none'
            this.gameEndScreen.style.display = 'block'
