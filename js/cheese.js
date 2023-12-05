@@ -1,8 +1,8 @@
 class Cheese{
     constructor(gameScreen){
         this.gameScreen = gameScreen;
-        this.width = 40
-        this.height = 40
+        this.width = 30
+        this.height = 30
         this.left = 1000
         this.top = Math.floor(Math.random() * (350 - this.height - 500) + 550);
         this.element = document.createElement('img')
@@ -33,19 +33,4 @@ class Cheese{
         return this.top;
       }
 
-      didSuperpose(obstacle) {
-        const cheeseRect = this.element.getBoundingClientRect() 
-        const obstacleRect = obstacle.element.getBoundingClientRect()
-    
-        if (
-            cheeseRect.left < obstacleRect.right &&
-            cheeseRect.right > obstacleRect.left &&
-            cheeseRect.top < obstacleRect.bottom &&
-            cheeseRect.bottom > obstacleRect.top
-        ) {
-          return true
-        } else {
-          return false
-        }
-      }
 }

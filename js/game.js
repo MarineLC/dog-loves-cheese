@@ -10,14 +10,14 @@ class Game{
         this.height = '600';
         this.width = '1000';
 
-        //player
+        //dog
         this.dog = null;
 
         //obstacles
         this.cats = [];
         this.puddles = [];
 
-        //cheese
+        //gain
         this.cheeses = [];
 
         this.score = 0;
@@ -47,50 +47,32 @@ class Game{
         // player moves
         this.dog.move();
     
+     
+       //Obstacles 
+        this.obstacle(this.cats);
+        this.obstacle(this.puddles);
 
-    //Obstacles 
-    this.obstacle(this.cats);
-    this.obstacle(this.puddles);
+       //gains
+       this.gain(this.cheeses);
+  
 
-     // cheese move
-    const nextCheeses = []
-    this.cheeses.forEach(currentCheese => {
-        currentCheese.move();
-        console.log(currentCheese.left);
-      if (currentCheese.left < 1000) {
-        if (this.dog.didCollide(currentCheese)) {
-          console.log('yummy');
-          currentCheese.element.remove();
-          this.score += 20;
-          
-        } else {
-            nextCheeses.push(currentCheese);
-        }
-    }
-       else {
-        currentCheese.element.remove();
-       }
-
-    });
-     this.cheeses = nextCheeses;
-
-
-    //update the score and lives
-     document.getElementById('score').innerText = this.score
-    document.getElementById('lives').innerText = this.lives
+        //update the score and lives
+         document.getElementById('score').innerText = this.score
+          document.getElementById('lives').innerText = this.lives
 
      console.log(this.animateId)
      if (this.animateId % 300 === 0) {
         this.cats.push(new Cat(this.gameScreen));
         this.cheeses.push(new Cheese(this.gameScreen));
-           
-        this.checkSuperposition(this.cheeses, this.cats);
+    
+        this.checkSuperposition(this.cats, this.cheeses);
+
+        //add obstacles when score increses
         if(this.score > 80){
             this.puddles.push(new Puddle(this.gameScreen))
             this.checkSuperposition(this.cats, this.puddles);
             this.checkSuperposition(this.puddles, this.cheeses);
-        }
-        
+        }   
       }
          if (this.gameOver) {
            this.gameScreen.style.display = 'none'
@@ -129,6 +111,29 @@ obstacle(obstacles){
 }
 
 
+//factorisation cheeses 
+gain(gains){
+const nextGains = []
+    this.cheeses.forEach(currentGain => {
+      currentGain.move();
+        console.log(currentGain.left);
+      if (currentGain.left < 1000) {
+        if (this.dog.didCollide(currentGain)) {
+          currentGain.element.remove();
+          this.score += 20;
+        
+        } else {
+          nextGains.push(currentGain);
+        }
+    }
+       else {
+        currentGain.element.remove();
+       }
+
+    });
+    gains = nextGains;
+  }
+
 //avoid superposition 
     checkSuperposition(obstacles2Remove, obstacles2Keep){
 
@@ -144,9 +149,7 @@ obstacle(obstacles){
                     element2removeRect.top < element2keepRect.bottom &&
                     element2removeRect.bottom > element2keepRect.top
                   )
-                  element2keep.element.remove();
-              
-               
+                  element2keep.element.remove();             
             });            
         });
     } 

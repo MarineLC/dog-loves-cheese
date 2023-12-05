@@ -32,20 +32,4 @@ class Cat{
       getPosition(){
         return this.top;
       }
-
-      didSuperpose(obstacle) {
-        const catRect = this.element.getBoundingClientRect() 
-        const obstacleRect = obstacle.element.getBoundingClientRect()
-    
-        if (
-          catRect.left < obstacleRect.right &&
-          catRect.right > obstacleRect.left &&
-          catRect.top < obstacleRect.bottom &&
-          catRect.bottom > obstacleRect.top
-        ) {
-          return true
-        } else {
-          return false
-        }
-      }
 }
