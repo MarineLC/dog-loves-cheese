@@ -22,10 +22,15 @@ class Game{
 
         this.score = 0;
         this.lives = 3;
+        this.level = 1;
 
         this.animateId = null
         
         this.gameOver = false;
+
+        //sounds effect
+        this.yummy = new Audio('sounds/yummy.mp3');
+        this.umph = new Audio('sounds/umph.mp3');
     }
 
 
@@ -56,9 +61,10 @@ class Game{
        this.gain(this.cheeses);
   
 
-        //update the score and lives
-         document.getElementById('score').innerText = this.score
-          document.getElementById('lives').innerText = this.lives
+        //update the score, lives and level
+         document.getElementById('score').innerText = this.score;
+        document.getElementById('lives').innerText = this.lives;
+        document.getElementById('level').innerText = this.level;
 
      console.log(this.animateId)
      if (this.animateId % 300 === 0) {
@@ -68,7 +74,8 @@ class Game{
         this.checkSuperposition(this.cats, this.cheeses);
 
         //add obstacles when score increses
-        if(this.score > 80){
+        if(this.score > 40){
+          this.level = 2;
             this.puddles.push(new Puddle(this.gameScreen))
             this.checkSuperposition(this.cats, this.puddles);
             this.checkSuperposition(this.puddles, this.cheeses);
@@ -95,6 +102,7 @@ obstacle(obstacles){
       if (currentObstacle.left < 1000) {
         if (this.dog.didCollide(currentObstacle)) {
           currentObstacle.element.remove();
+          this.umph.play();
           this.lives -= 1;
           if (this.lives <= 0) {
             this.gameOver = true;
@@ -121,6 +129,7 @@ const nextGains = []
         if (this.dog.didCollide(currentGain)) {
           currentGain.element.remove();
           this.score += 20;
+          this.yummy.play();
         
         } else {
           nextGains.push(currentGain);

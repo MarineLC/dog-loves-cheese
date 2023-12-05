@@ -10,6 +10,15 @@ window.onload = function () {
     
   
     });
+    
+    const audio = new Audio("sounds/background-sound.mp3");
+    const buttons = document.querySelectorAll("button");
+
+  buttons.forEach(button => {
+   button.addEventListener("click", () => {
+      audio.play();
+   });
+  });
 
     function startGame() {
 
