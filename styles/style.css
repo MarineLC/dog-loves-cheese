@@ -135,3 +135,12 @@ p{
     inset -2px -2px 3px rgba(0, 0, 0, 0.6);
   }
 
+ #lives img{
+  width: 20px;
+  height: 20px;
+  }
+
+  #level img{
+    width: 35px;
+    height: 35px;
+    }

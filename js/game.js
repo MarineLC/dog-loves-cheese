@@ -6,6 +6,7 @@ class Game{
         this.heaDog = document.getElementById('head-dog');
         this.gameScreen = document.getElementById('game-start');
         this.gameEndScreen = document.getElementById('game-end');
+      
 
         this.height = '600';
         this.width = '1000';
@@ -23,7 +24,8 @@ class Game{
         this.score = 0;
         this.lives = 3;
         this.level = 1;
-
+      
+    
         this.animateId = null
         
         this.gameOver = false;
@@ -42,9 +44,11 @@ class Game{
         this.heaDog.style.display = 'none';
         
         this.gameScreen.style.display = 'block';
+      
 
         this.dog = new Dog(this.gameScreen);
-   
+         
+
         this.gameLoop();
     }
 
@@ -70,12 +74,19 @@ class Game{
      if (this.animateId % 300 === 0) {
         this.cats.push(new Cat(this.gameScreen));
         this.cheeses.push(new Cheese(this.gameScreen));
-    
         this.checkSuperposition(this.cats, this.cheeses);
 
         //add obstacles when score increses
-        if(this.score > 40){
+        if(this.score >= 40){
           this.level = 2;
+            this.puddles.push(new Puddle(this.gameScreen))
+            this.checkSuperposition(this.cats, this.puddles);
+            this.checkSuperposition(this.puddles, this.cheeses);
+        }   
+
+        //speed up the game
+        if(this.score >= 80){
+          this.level = 3;
             this.puddles.push(new Puddle(this.gameScreen))
             this.checkSuperposition(this.cats, this.puddles);
             this.checkSuperposition(this.puddles, this.cheeses);

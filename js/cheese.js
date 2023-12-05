@@ -29,8 +29,5 @@ class Cheese{
         this.element.style.top = `${this.top}px`
       }
 
-      getPosition(){
-        return this.top;
-      }
 
 }

@@ -2,7 +2,9 @@ window.onload = function () {
 
     const startGamebtn = document.getElementById('head-dog');
     const restartGameBtn = document.getElementById('restart-button');
-
+    
+    const audio = new Audio("sounds/background-sound.mp3");
+    audio.play();
     let game;
 
 
@@ -10,15 +12,8 @@ window.onload = function () {
     
   
     });
-    
-    const audio = new Audio("sounds/background-sound.mp3");
-    const buttons = document.querySelectorAll("button");
 
-  buttons.forEach(button => {
-   button.addEventListener("click", () => {
-      audio.play();
-   });
-  });
+  
 
     function startGame() {
 
@@ -32,8 +27,7 @@ window.onload = function () {
       })
 
       restartGameBtn.addEventListener('click', function () {
-        // startGame()
-        //startGame();
+
        location.reload()
       })
 
