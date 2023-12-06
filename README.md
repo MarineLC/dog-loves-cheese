@@ -27,7 +27,7 @@ Dog chasing chesse is a game where player can play a dog who find some cheese an
 - Game Screen
 - Game Over Screen
 
-# Proyect Structure
+# Project Structure
 
 ## main.js
 

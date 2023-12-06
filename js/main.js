@@ -3,32 +3,23 @@ window.onload = function () {
     const startGamebtn = document.getElementById('head-dog');
     const restartGameBtn = document.getElementById('restart-button');
     
-    const audio = new Audio("sounds/background-sound.mp3");
-    audio.play();
+    const audio = new Audio('sounds/background-sound.mp3');
+
     let game;
 
-
-    startGamebtn.addEventListener("click", function () {
-    
-  
-    });
-
-  
-
     function startGame() {
-
         game = new Game()
         game.launch()
     }
   
 
     startGamebtn.addEventListener('click', function () {
-        startGame();
+      audio.play();
+      startGame();
       })
 
       restartGameBtn.addEventListener('click', function () {
-
-       location.reload()
+       location.reload();
       })
 
  // Check if the pressed key is in the possibleKeystrokes array
