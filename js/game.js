@@ -28,14 +28,20 @@ class Game {
     this.booleanScore = false;
 
     this.heart = [];
-    this.createBoneimg();
-    this.createHearteimg(this.heart, this.lives);
+
+    this.srcBone = "images/bones.png";
+
+    this.createImg(this.srcBone, "level");
+
+    this.createHeartimg(this.heart, this.lives);
 
     this.animateId = null;
 
     this.gameOver = false;
 
     //sounds effect
+    this.audio = new Audio("sounds/background-sound.mp3");
+    this.audio.play();
     this.yummy = new Audio("sounds/yummy.mp3");
     this.umph = new Audio("sounds/umph.mp3");
     this.lose = new Audio("sounds/lose.wav");
@@ -54,6 +60,8 @@ class Game {
     this.dog = new Dog(this.gameScreen);
 
     this.gameLoop();
+    //localStorage.setItem(this.score);
+    //const storeScore = localStorage.getItem(this.score);
   }
 
   gameLoop() {
@@ -71,30 +79,28 @@ class Game {
     document.getElementById("score").innerText = this.score;
 
     if (this.score == 40 && !this.booleanScore) {
-      this.createBoneimg();
+      this.createImg(this.srcBone, "level");
       this.booleanScore = true;
     }
     if (this.score == 80 && this.booleanScore) {
-      this.createBoneimg();
+      this.createImg(this.srcBone, "level");
       this.booleanScore = false;
     }
     if (this.score == 120 && !this.booleanScore) {
-      this.createBoneimg();
+      this.createImg(this.srcBone, "level");
       this.booleanScore = true;
     }
     if (this.score == 160 && this.booleanScore) {
-      this.createBoneimg();
+      this.createImg(this.srcBone, "level");
       this.booleanScore = false;
     }
-
-    console.log(this.animateId);
 
     if (this.animateId % 300 === 0 && this.score < 40) {
       this.cats.push(new Cat(this.gameScreen));
       this.cheeses.push(new Cheese(this.gameScreen));
       this.checkSuperposition(this.cats, this.cheeses);
     }
-    //add obstacles when score increses
+    //add obstacles when score increases
     if (this.animateId % 200 === 0 && this.score >= 40) {
       this.cats.push(new Cat(this.gameScreen));
       this.puddles.push(new Puddle(this.gameScreen));
@@ -115,12 +121,9 @@ class Game {
       this.checkSuperposition(this.cats, this.cheeses);
     }
     if (this.gameOver) {
+      this.audio.pause();
       this.lose.play();
-      let dead = document.createElement("img");
-      dead.src = "images/skull.png";
-      dead.style.height = "35px";
-      dead.style.width = "35px";
-      this.lives.push(document.getElementById("lives").appendChild(dead));
+      this.createImg("images/skull.png", "lives");
 
       this.gameScreen.style.display = "none";
       this.gameEndScreen.style.display = "block";
@@ -135,7 +138,7 @@ class Game {
     const nextObstacle = [];
     obstacles.forEach((currentObstacle) => {
       currentObstacle.move();
-      console.log(currentObstacle.left);
+
       if (currentObstacle.left < 1000) {
         if (this.dog.didCollide(currentObstacle)) {
           currentObstacle.element.remove();
@@ -159,7 +162,7 @@ class Game {
     const nextGains = [];
     this.cheeses.forEach((currentGain) => {
       currentGain.move();
-      console.log(currentGain.left);
+
       if (currentGain.left < 1000) {
         if (this.dog.didCollide(currentGain)) {
           currentGain.element.remove();
@@ -200,13 +203,15 @@ class Game {
     heart[lives.length].remove();
   }
 
-  createBoneimg() {
+  //create image
+  createImg(src, elementId) {
     let img = document.createElement("img");
-    img.src = "images/bones.png";
-    document.getElementById("level").appendChild(img);
+    img.src = src;
+    document.getElementById(elementId).appendChild(img);
   }
 
-  createHearteimg(heart, lives) {
+  //create multiple images
+  createHeartimg(heart, lives) {
     for (let i = 0; i < 3; i++) {
       heart.push(document.createElement("img"));
       heart[i].src = "images/heart.png";

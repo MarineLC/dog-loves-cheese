@@ -2,9 +2,8 @@ window.onload = function () {
   const startGamebtn = document.getElementById("head-dog");
   const restartGameBtn = document.getElementById("restart-button");
 
-  const audio = new Audio("sounds/background-sound.mp3");
-
   let game;
+  const bark = new Audio("sounds/bark.mp3");
 
   function startGame() {
     game = new Game();
@@ -12,7 +11,7 @@ window.onload = function () {
   }
 
   startGamebtn.addEventListener("click", function () {
-    audio.play();
+    bark.play();
     startGame();
   });
 
