@@ -1,174 +1,141 @@
-class Game{
+class Game {
+  constructor() {
+    this.startScreen = document.getElementById("start-screen");
+    this.heaDog = document.getElementById("head-dog");
+    this.gameScreen = document.getElementById("game-start");
+    this.gameEndScreen = document.getElementById("game-end");
+    this.gameScore = document.getElementById("game-score");
 
-    constructor(){
+    this.height = "600";
+    this.width = "1000";
 
-        this.startScreen = document.getElementById('start-screen');
-        this.heaDog = document.getElementById('head-dog');
-        this.gameScreen = document.getElementById('game-start');
-        this.gameEndScreen = document.getElementById('game-end');
-        this.gameScore = document.getElementById('game-score');
-    
-      
+    //dog
+    this.dog = null;
 
-        this.height = '600';
-        this.width = '1000';
+    //obstacles
+    this.cats = [];
+    this.puddles = [];
 
-        //dog
-        this.dog = null;
+    //gain
+    this.cheeses = [];
 
-        //obstacles
-        this.cats = [];
-        this.puddles = [];
+    this.score = 0;
 
-        //gain
-        this.cheeses = [];
+    this.lives = [];
 
-        this.score = 0;
+    this.level = null;
 
-        this.lives = [];
+    this.booleanScore = false;
 
-        this.level = null;
+    this.heart = [];
+    this.createBoneimg();
+    this.createHearteimg(this.heart, this.lives);
 
-        this.booleanScore = false;
+    this.animateId = null;
 
-        this.bone = document.createElement('img');
-        this.bone.src =
-        'images/bones.png';
-        document.getElementById("level").appendChild(this.bone);
+    this.gameOver = false;
 
-  
-        this.heart =[];
-        for(let i = 0; i < 3; i++){
-          this.heart.push(document.createElement('img'));
-        this.heart[i].src =
-        'images/heart.png';
-          this.lives.push(document.getElementById("lives").appendChild(this.heart[i]));
-        }
-        
-        
-        this.animateId = null
-        
-        this.gameOver = false;
+    //sounds effect
+    this.yummy = new Audio("sounds/yummy.mp3");
+    this.umph = new Audio("sounds/umph.mp3");
+    this.lose = new Audio("sounds/lose.wav");
+  }
 
-        //sounds effect
-        this.yummy = new Audio('sounds/yummy.mp3');
-        this.umph = new Audio('sounds/umph.mp3');
+  launch() {
+    this.gameScreen.style.height = `${this.height}px`;
+    this.gameScreen.style.width = `${this.width}px`;
+
+    this.startScreen.style.display = "none";
+    this.heaDog.style.display = "none";
+
+    this.gameScreen.style.display = "block";
+    this.gameScore.style.display = "block";
+
+    this.dog = new Dog(this.gameScreen);
+
+    this.gameLoop();
+  }
+
+  gameLoop() {
+    // player moves
+    this.dog.move();
+
+    //Obstacles
+    this.obstacle(this.cats);
+    this.obstacle(this.puddles);
+
+    //gains
+    this.gain(this.cheeses);
+
+    //update the score, lives and level
+    document.getElementById("score").innerText = this.score;
+
+    if (this.score == 40 && !this.booleanScore) {
+      this.createBoneimg();
+      this.booleanScore = true;
+    }
+    if (this.score == 80 && this.booleanScore) {
+      this.createBoneimg();
+      this.booleanScore = false;
+    }
+    if (this.score == 120 && !this.booleanScore) {
+      this.createBoneimg();
+      this.booleanScore = true;
+    }
+    if (this.score == 160 && this.booleanScore) {
+      this.createBoneimg();
+      this.booleanScore = false;
     }
 
+    console.log(this.animateId);
 
-    launch(){
-        this.gameScreen.style.height = `${this.height}px`;
-        this.gameScreen.style.width = `${this.width}px`;
-       
-        this.startScreen.style.display = 'none';
-        this.heaDog.style.display = 'none';
-        
-        this.gameScreen.style.display = 'block';
-        this.gameScore.style.display = 'block';
-      
+    if (this.animateId % 300 === 0 && this.score < 40) {
+      this.cats.push(new Cat(this.gameScreen));
+      this.cheeses.push(new Cheese(this.gameScreen));
+      this.checkSuperposition(this.cats, this.cheeses);
+    }
+    //add obstacles when score increses
+    if (this.animateId % 200 === 0 && this.score >= 40) {
+      this.cats.push(new Cat(this.gameScreen));
+      this.puddles.push(new Puddle(this.gameScreen));
+      this.cheeses.push(new Cheese(this.gameScreen));
 
-        this.dog = new Dog(this.gameScreen);
-    
-
-        this.gameLoop();
+      this.checkSuperposition(this.cats, this.cheeses);
+      this.checkSuperposition(this.cats, this.puddles);
+      this.checkSuperposition(this.puddles, this.cheeses);
     }
 
-    gameLoop(){
-      
-        // player moves
-        this.dog.move();
-    
-     
-       //Obstacles 
-        this.obstacle(this.cats);
-        this.obstacle(this.puddles);
+    if (this.animateId % 100 === 0 && this.score >= 80) {
+      this.cats.push(new Cat(this.gameScreen));
+      this.puddles.push(new Puddle(this.gameScreen));
+      this.cheeses.push(new Cheese(this.gameScreen));
 
-       //gains
-       this.gain(this.cheeses);
-  
+      this.checkSuperposition(this.cats, this.puddles);
+      this.checkSuperposition(this.puddles, this.cheeses);
+      this.checkSuperposition(this.cats, this.cheeses);
+    }
+    if (this.gameOver) {
+      this.lose.play();
+      let dead = document.createElement("img");
+      dead.src = "images/skull.png";
+      dead.style.height = "35px";
+      dead.style.width = "35px";
+      this.lives.push(document.getElementById("lives").appendChild(dead));
 
-        //update the score, lives and level
-         document.getElementById('score').innerText = this.score;
+      this.gameScreen.style.display = "none";
+      this.gameEndScreen.style.display = "block";
+      this.dog.element.remove();
+    } else {
+      this.animateId = requestAnimationFrame(() => this.gameLoop());
+    }
+  }
 
-         
-         if(this.score == 40 && !this.booleanScore){
-          this.createBoneimg();
-          this.booleanScore = true;
-         }
-         if(this.score == 80 && this.booleanScore){
-          this.createBoneimg();
-          this.booleanScore = false;
-         }
-         if(this.score == 120 && !this.booleanScore){
-          this.createBoneimg();
-          this.booleanScore = true;
-         }
-         if(this.score == 160 && this.booleanScore){
-          this.createBoneimg();
-          this.booleanScore = false;
-         }
-       
-
-     console.log(this.animateId)
-     
-     
-     if (this.animateId % 300 === 0 && this.score < 40) {
-        this.cats.push(new Cat(this.gameScreen));
-        this.cheeses.push(new Cheese(this.gameScreen));
-        this.checkSuperposition(this.cats, this.cheeses);
-      
-      }
-      //add obstacles when score increses
-      if(this.animateId % 200 === 0 && this.score >= 40){
-
-        this.cats.push(new Cat(this.gameScreen));
-        this.puddles.push(new Puddle(this.gameScreen));
-        this.cheeses.push(new Cheese(this.gameScreen));
-
-        this.checkSuperposition(this.cats, this.cheeses);     
-        this.checkSuperposition(this.cats, this.puddles);
-        this.checkSuperposition(this.puddles, this.cheeses);
-    }   
-
-    
-    if(this.animateId % 100 === 0 && this.score >= 80){
-
-        this.cats.push(new Cat(this.gameScreen));
-        this.puddles.push(new Puddle(this.gameScreen))
-        this.cheeses.push(new Cheese(this.gameScreen));
-
-        this.checkSuperposition(this.cats, this.puddles);
-        this.checkSuperposition(this.puddles, this.cheeses);
-        this.checkSuperposition(this.cats, this.cheeses);
-    }   
-         if (this.gameOver) {
-
-          let dead = document.createElement('img');
-          dead.src =
-          'images/skull.png';
-          dead.style.height = '35px';
-          dead.style.width = '35px';
-          this.lives.push(document.getElementById("lives").appendChild(dead));
-
-           this.gameScreen.style.display = 'none'
-           this.gameEndScreen.style.display = 'block'
-          this.dog.element.remove()
-         } else {
-
-             this.animateId = requestAnimationFrame(() => this.gameLoop())
-             
-            }
-
-            
-            
-}
-
-//factorisation obstacles
-obstacle(obstacles){
-    const nextObstacle = []
-    obstacles.forEach(currentObstacle => {
-        currentObstacle.move();
-        console.log(currentObstacle.left);
+  //factorisation obstacles
+  obstacle(obstacles) {
+    const nextObstacle = [];
+    obstacles.forEach((currentObstacle) => {
+      currentObstacle.move();
+      console.log(currentObstacle.left);
       if (currentObstacle.left < 1000) {
         if (this.dog.didCollide(currentObstacle)) {
           currentObstacle.element.remove();
@@ -178,75 +145,72 @@ obstacle(obstacles){
             this.gameOver = true;
           }
         } else {
-            nextObstacle.push(currentObstacle);
+          nextObstacle.push(currentObstacle);
         }
-    }
-       else {
+      } else {
         currentObstacle.element.remove();
-       }
+      }
     });
-     obstacles = nextObstacle;
-}
+    obstacles = nextObstacle;
+  }
 
-
-//factorisation cheeses 
-gain(gains){
-const nextGains = []
-    this.cheeses.forEach(currentGain => {
+  //factorisation cheeses
+  gain(gains) {
+    const nextGains = [];
+    this.cheeses.forEach((currentGain) => {
       currentGain.move();
-        console.log(currentGain.left);
+      console.log(currentGain.left);
       if (currentGain.left < 1000) {
         if (this.dog.didCollide(currentGain)) {
           currentGain.element.remove();
           this.score += 20;
           this.yummy.play();
-        
         } else {
           nextGains.push(currentGain);
         }
-    }
-       else {
+      } else {
         currentGain.element.remove();
-       }
-
+      }
     });
     gains = nextGains;
   }
 
-//avoid superposition 
-    checkSuperposition(obstacles2Remove, obstacles2Keep){
+  //avoid superposition
+  checkSuperposition(obstacles2Remove, obstacles2Keep) {
+    obstacles2Remove.forEach((element2remove) => {
+      obstacles2Keep.forEach((element2keep) => {
+        const element2removeRect =
+          element2remove.element.getBoundingClientRect();
+        const element2keepRect = element2keep.element.getBoundingClientRect();
 
-        obstacles2Remove.forEach(element2remove => {
-            obstacles2Keep.forEach(element2keep => {
-                
-                const element2removeRect = element2remove.element.getBoundingClientRect();
-                 const element2keepRect = element2keep.element.getBoundingClientRect();
-                 
-                 if (
-                    element2removeRect.left < element2keepRect.right &&
-                    element2removeRect.right > element2keepRect.left &&
-                    element2removeRect.top < element2keepRect.bottom &&
-                    element2removeRect.bottom > element2keepRect.top
-                  )
-                  element2keep.element.remove();             
-            });            
-        });
-    } 
-
+        if (
+          element2removeRect.left < element2keepRect.right &&
+          element2removeRect.right > element2keepRect.left &&
+          element2removeRect.top < element2keepRect.bottom &&
+          element2removeRect.bottom > element2keepRect.top
+        )
+          element2keep.element.remove();
+      });
+    });
+  }
 
   //remove lives
-  removeLives(heart, lives){
+  removeLives(heart, lives) {
     lives.pop();
     heart[lives.length].remove();
-}
+  }
 
+  createBoneimg() {
+    let img = document.createElement("img");
+    img.src = "images/bones.png";
+    document.getElementById("level").appendChild(img);
+  }
 
-
-
-    createBoneimg(){
-      let img = document.createElement('img');
-          img.src =
-          'images/bones.png';
-          document.getElementById("level").appendChild(img);
+  createHearteimg(heart, lives) {
+    for (let i = 0; i < 3; i++) {
+      heart.push(document.createElement("img"));
+      heart[i].src = "images/heart.png";
+      lives.push(document.getElementById("lives").appendChild(heart[i]));
     }
+  }
 }
