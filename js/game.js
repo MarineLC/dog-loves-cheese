@@ -60,8 +60,6 @@ class Game {
     this.dog = new Dog(this.gameScreen);
 
     this.gameLoop();
-    //localStorage.setItem(this.score);
-    //const storeScore = localStorage.getItem(this.score);
   }
 
   gameLoop() {
@@ -69,11 +67,11 @@ class Game {
     this.dog.move();
 
     //Obstacles
-    this.obstacle(this.cats);
-    this.obstacle(this.puddles);
+    this.obstacle(this.cats, this.score);
+    this.obstacle(this.puddles, this.score);
 
     //gains
-    this.gain(this.cheeses);
+    this.gain(this.cheeses, this.score);
 
     //update the score, lives and level
     document.getElementById("score").innerText = this.score;
@@ -101,7 +99,7 @@ class Game {
       this.checkSuperposition(this.cats, this.cheeses);
     }
     //add obstacles when score increases
-    if (this.animateId % 200 === 0 && this.score >= 40) {
+    if (this.animateId % 200 === 0 && this.score >= 40 && this.score < 80) {
       this.cats.push(new Cat(this.gameScreen));
       this.puddles.push(new Puddle(this.gameScreen));
       this.cheeses.push(new Cheese(this.gameScreen));
@@ -134,10 +132,10 @@ class Game {
   }
 
   //factorisation obstacles
-  obstacle(obstacles) {
+  obstacle(obstacles, score) {
     const nextObstacle = [];
     obstacles.forEach((currentObstacle) => {
-      currentObstacle.move();
+      currentObstacle.move(score);
 
       if (currentObstacle.left < 1000) {
         if (this.dog.didCollide(currentObstacle)) {
@@ -158,10 +156,10 @@ class Game {
   }
 
   //factorisation cheeses
-  gain(gains) {
+  gain(gains, score) {
     const nextGains = [];
     this.cheeses.forEach((currentGain) => {
-      currentGain.move();
+      currentGain.move(score);
 
       if (currentGain.left < 1000) {
         if (this.dog.didCollide(currentGain)) {

@@ -18,8 +18,16 @@ class Cat {
     this.gameScreen.appendChild(this.element);
   }
 
-  move() {
-    this.left += -1;
+  move(score) {
+    if (score < 40) {
+      this.left += -0.5;
+    } else if (score >= 40 && score < 80) {
+      this.left += -1;
+    } else if (score >= 80 && score < 120) {
+      this.left += -2;
+    } else {
+      this.left += -3;
+    }
     this.updatePosition();
   }
 

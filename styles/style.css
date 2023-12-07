@@ -81,7 +81,7 @@ p{
     position: relative;
     background-image: url(../images/street.jpg);
     background-size: cover;
-    animation: slide 5s linear 1s infinite ;
+    animation: slide 10s linear 1s infinite ;
     margin-left: auto;
     margin-right: auto;
   }
